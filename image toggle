@@ -1,9 +1,6 @@
-Experiment 6: "Basic Login and Input Display“
-
-Objective: To learn how to use EditText for user input, arrange UI elements using LinearLayout, and retrieve input data to display in aToast message.
-
-Question: Design a basic Login Form with places for username and password. Use a Linear Layout to arrange them, and show a message using a Toast.
-
+Experiment 8: "Image Toggle"
+Objective: To learn how to use FrameLayout to stack UI elements and toggle their visibility.
+Question: Develop an application that toggles an image using FrameLayout. When a button is clicked, make one image disappear and another appear in its place.
 
 ------------------------------------------------------------------------------------------------
 
