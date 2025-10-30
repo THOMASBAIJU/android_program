@@ -1,0 +1,232 @@
+#Register using intent with validation
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+mainActivity.java
+
+package com.example.myapplication;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import android.text.TextUtils;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import android.util.Patterns;
+
+public class MainActivity extends AppCompatActivity {
+    private EditText name;
+    private EditText email;
+    private EditText phone;
+    private EditText password;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+
+        name = findViewById(R.id.name);
+        email = findViewById(R.id.email);
+        phone = findViewById(R.id.phone);
+        password = findViewById(R.id.password);
+        Button signup = findViewById(R.id.signup);
+
+        signup.setOnClickListener(v ->{
+            if (TextUtils.isEmpty(name.getText().toString())
+                    || TextUtils.isEmpty(email.getText().toString())
+                    || TextUtils.isEmpty(phone.getText().toString())
+                    || TextUtils.isEmpty(password.getText().toString()))
+            {
+                Toast.makeText(MainActivity.this,"Please enter all the fields",Toast.LENGTH_SHORT).show();
+            }else if(!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()){
+                    Toast.makeText(MainActivity.this,"Enter valid email",Toast.LENGTH_SHORT).show();
+            }else if(phone.length()<10){
+                Toast.makeText(MainActivity.this,"Enter valid phone number",Toast.LENGTH_SHORT).show();
+            } else if (password.length() <8) {
+                Toast.makeText(MainActivity.this,"Password should be atleast 8 characters",Toast.LENGTH_SHORT).show();
+            }else{
+                Intent intent = new Intent (MainActivity.this,MainActivity2.class);
+                intent.putExtra("name",name.getText().toString());
+                intent.putExtra("email",email.getText().toString());
+                intent.putExtra("phone",phone.getText().toString());
+                intent.putExtra("password",password.getText().toString());
+                Toast.makeText(MainActivity.this,"Successfully Registered",Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        });
+    }
+}
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_margin="20dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register Here!!"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:fontFamily="times"/>
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:layout_gravity="left"
+        android:layout_marginTop="10dp"
+        android:inputType="text"
+        />
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:layout_gravity="left"
+        android:layout_marginTop="10dp"
+        android:inputType="textEmailAddress"
+        />
+    <EditText
+        android:id="@+id/phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone"
+        android:layout_gravity="left"
+        android:layout_marginTop="10dp"
+        android:inputType="phone"
+        />
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:layout_gravity="left"
+        android:layout_marginTop="10dp"
+        android:inputType="textPassword"
+        />
+    <Button
+        android:id="@+id/signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"/>
+</LinearLayout>
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+MainActivity2.java
+
+package com.example.myapplication;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+public class MainActivity2 extends AppCompatActivity {
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main2);
+        Intent intent = getIntent();
+
+        TextView name1 = findViewById(R.id.name1);
+        TextView email1 = findViewById(R.id.email1);
+        TextView phone1 = findViewById(R.id.phone1);
+        TextView password1 = findViewById(R.id.password1);
+        Button logout = findViewById(R.id.logout);
+
+        String name = intent.getStringExtra("name");
+        String email = intent.getStringExtra("email");
+        String phone = intent.getStringExtra("phone");
+        String password = intent.getStringExtra("password");
+
+        name1.setText("Name : "+name);
+        email1.setText("Email : "+email);
+        phone1.setText("Phone : "+phone);
+        password1.setText("Password : "+password);
+
+        logout.setOnClickListener(v ->{
+            Intent intent1 = new Intent(MainActivity2.this,MainActivity.class);
+            startActivity(intent1);
+        });
+    }
+
+}
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_marginTop="20sp"
+    tools:context=".MainActivity2">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Home"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:fontFamily="times"/>
+
+    <TextView
+        android:id="@+id/name1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10sp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/email1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10sp"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/phone1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10sp"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/password1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10sp"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log out"/>
+
+</LinearLayout>
