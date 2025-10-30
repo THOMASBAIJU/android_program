@@ -1,0 +1,200 @@
+#login or registeration page using intent
+---------------------------------------------------------------------------------------------------------------------------
+Main_Activity.java
+
+package com.example.myapplication;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+public class MainActivity extends AppCompatActivity {
+    private EditText name;
+    private EditText password;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        Button login = findViewById(R.id.login);
+        name = findViewById(R.id.name);
+        password = findViewById(R.id.password);
+
+        login.setOnClickListener(v ->{
+            if (name.getText().toString().equals("user") && password.getText().toString().equals("123456")){
+                Intent intent = new Intent(MainActivity.this,MainActivity2.class);
+                intent.putExtra("name",name.getText().toString());
+                intent.putExtra("password",password.getText().toString());
+                startActivity(intent);
+                Toast.makeText(MainActivity.this,"Login Successfully", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(MainActivity.this,"Login Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
+
+activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:layout_margin="20dp"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Login Here"
+        android:textSize="50dp"
+        android:fontFamily="times"
+        android:textStyle="bold"/>
+    <EditText
+        android:id="@+id/name"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:hint="UserName"
+        android:textSize="20dp"/>
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:hint="Password"
+        android:textSize="20dp"/>
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:text="Login"
+        />
+
+</LinearLayout>
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+MainActivity2.java
+
+package com.example.myapplication;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+public class MainActivity2 extends AppCompatActivity {
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main2);
+
+        TextView text2 = findViewById(R.id.text2);
+        TextView text3 = findViewById(R.id.text3);
+        Button btn2 = findViewById(R.id.btn2);
+
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
+        String password = intent.getStringExtra("password");
+        text2.setText("Welcome "+name);
+        text3.setText("Your Password is "+password);
+        btn2.setOnClickListener(v -> {
+            Intent intent1 = new Intent(MainActivity2.this,MainActivity.class);
+            startActivity(intent1);
+            Toast.makeText(MainActivity2.this,"Logout Successfully", Toast.LENGTH_SHORT).show();
+        });
+
+    }
+}
+
+
+activity_main2.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="20dp"
+    android:padding="20dp"
+    tools:context=".MainActivity2">
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Home Page"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:text="Welcome"/>
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="left"
+        android:textSize="20dp"
+        />
+
+    <TextView
+        android:id="@+id/text3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="left"
+        android:textSize="20dp"
+        />
+
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        />
+
+
+</LinearLayout>
