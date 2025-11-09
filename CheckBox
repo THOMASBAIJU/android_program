@@ -1,0 +1,77 @@
+MainActivity.java
+
+package com.example.myapplication;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Toast;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+public class MainActivity extends AppCompatActivity {
+    private CheckBox cbEmp, cbUnemp;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+
+        cbEmp = findViewById(R.id.cbEmployed);
+        cbUnemp = findViewById(R.id.cbUnemployed);
+        Button submit = findViewById(R.id.btnSubmit);
+
+
+        cbEmp.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) cbUnemp.setChecked(false);
+        });
+
+        cbUnemp.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) cbEmp.setChecked(false);
+        });
+
+        submit.setOnClickListener(v -> {
+            String res = "";
+            if(cbEmp.isChecked()) res += "Employed\n";
+            if(cbUnemp.isChecked()) res += "Unemployed\n";
+            Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
+
+        });
+        }
+
+    }
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20sp"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <CheckBox
+        android:id="@+id/cbEmployed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Employed" />
+
+    <CheckBox
+        android:id="@+id/cbUnemployed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unemployed" />
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"/>
+</LinearLayout>
